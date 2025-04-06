@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-4">
+  <form class="form-inline" method="GET" action="{{ url_for('index') }}">
+    <div class="form-group mr-2">
+      <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ search_query }}">
+    </div>
+    <div class="form-group mr-2">
+      <select name="category" class="form-control">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat.id }}" {% if category_filter and cat.id == category_filter|int %}selected{% endif %}>
+            {{ cat.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Color</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Last Updated</th>
+        <th>Image</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in clothes %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.category.name }}</td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div style="width: 30px; height: 20px; background-color: {{ item.color }}; border: 1px solid #000; margin-right: 5px;"></div>
+            <span>{{ item.color }}</span>
+          </div>
+        </td>
+        <td>{{ item.location }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.last_updated.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>
+          {% if item.image_url %}
+            <img src="{{ item.image_url }}" alt="{{ item.name }}" class="img-thumbnail" style="width: 50px; height: auto;">
+          {% endif %}
+        </td>
+        <td>
+          <a href="{{ url_for('edit', clothing_id=item.id) }}" class="btn btn-sm btn-secondary mb-1">Edit</a>
+          <form action="{{ url_for('delete', clothing_id=item.id) }}" method="POST" style="display:inline-block;">
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

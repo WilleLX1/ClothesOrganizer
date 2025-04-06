@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Manage Categories</h2>
+<form method="POST" class="form-inline mb-4">
+  <div class="form-group mr-2">
+    <input type="text" name="name" class="form-control" placeholder="New category" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Add Category</button>
+</form>
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cat in categories %}
+    <tr>
+      <td>{{ cat.id }}</td>
+      <td>{{ cat.name }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

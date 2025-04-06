@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Add New Clothing Item</h2>
+<form method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label>Name (leave blank to auto-generate):</label>
+    <input type="text" name="name" class="form-control" placeholder="Optional">
+  </div>
+  <div class="form-group">
+    <label>Category:</label>
+    <select name="category" class="form-control" required>
+      {% for cat in categories %}
+      <option value="{{ cat.id }}">{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Color:</label>
+    <input type="color" name="color" class="form-control" value="#000000" required>
+  </div>
+  <div class="form-group">
+    <label>Location (e.g., Peter, Sofie):</label>
+    <input type="text" name="location" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label>Status (e.g., In storage, Washing, In use):</label>
+    <input type="text" name="status" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label>Image URL (optional):</label>
+    <input type="url" name="image_url" class="form-control" placeholder="http://">
+  </div>
+  <div class="form-group">
+    <label>Or capture/upload an image:</label>
+    <input type="file" name="image_file" class="form-control-file" accept="image/*" capture="camera">
+  </div>
+  <button type="submit" class="btn btn-primary">Add Clothing</button>
+  <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
